@@ -1,0 +1,186 @@
+mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| Movies             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Movies;
+ERROR 1046 (3D000): No database selected
+mysql> use Movies;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from movies;
+ERROR 1146 (42S02): Table 'Movies.movies' doesn't exist
+mysql> select * from chart;
+ERROR 1146 (42S02): Table 'Movies.chart' doesn't exist
+mysql> select * from Chart;
++----------------------+------+----------+------------------+------------+
+| Name                 | Year | Genre    | Director         | Production |
++----------------------+------+----------+------------------+------------+
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |
++----------------------+------+----------+------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Hollywood values("Peaky Blinders" , 2015 , "Action" , "Cillian Murphy" , "Netflix" ),("Money Heist" , 2017 , "Thriller" , "El Professor" , "Netflix" );
+ERROR 1146 (42S02): Table 'Movies.Hollywood' doesn't exist
+mysql> insert into Chart values("Peaky Blinders" , 2015 , "Action" , "Cillian Murphy" , "Netflix" ),("Money Heist" , 2017 , "Thriller" , "El Professor" , "Netflix" );
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from Chart;
++----------------------+------+----------+------------------+------------+
+| Name                 | Year | Genre    | Director         | Production |
++----------------------+------+----------+------------------+------------+
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |
+| Peaky Blinders       | 2015 | Action   | Cillian Murphy   | Netflix    |
+| Money Heist          | 2017 | Thriller | El Professor     | Netflix    |
++----------------------+------+----------+------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from Chart order by Year;
++----------------------+------+----------+------------------+------------+
+| Name                 | Year | Genre    | Director         | Production |
++----------------------+------+----------+------------------+------------+
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |
+| Peaky Blinders       | 2015 | Action   | Cillian Murphy   | Netflix    |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |
+| Money Heist          | 2017 | Thriller | El Professor     | Netflix    |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |
++----------------------+------+----------+------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from Chart where Year<2017;
++------------------+------+--------+----------------+------------+
+| Name             | Year | Genre  | Director       | Production |
++------------------+------+--------+----------------+------------+
+| Prashant's Waifu | 2012 | Anime  | Utkarsh More   | Mappa      |
+| Peaky Blinders   | 2015 | Action | Cillian Murphy | Netflix    |
++------------------+------+--------+----------------+------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from Chart order by Year desc;
++----------------------+------+----------+------------------+------------+
+| Name                 | Year | Genre    | Director         | Production |
++----------------------+------+----------+------------------+------------+
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |
+| Money Heist          | 2017 | Thriller | El Professor     | Netflix    |
+| Peaky Blinders       | 2015 | Action   | Cillian Murphy   | Netflix    |
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |
++----------------------+------+----------+------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Chart add column Income int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Chart;
++----------------------+------+----------+------------------+------------+--------+
+| Name                 | Year | Genre    | Director         | Production | Income |
++----------------------+------+----------+------------------+------------+--------+
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |   NULL |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |   NULL |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |   NULL |
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |   NULL |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |   NULL |
+| Peaky Blinders       | 2015 | Action   | Cillian Murphy   | Netflix    |   NULL |
+| Money Heist          | 2017 | Thriller | El Professor     | Netflix    |   NULL |
++----------------------+------+----------+------------------+------------+--------+
+7 rows in set (0.01 sec)
+
+mysql> alter table Chart drop column Income;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Chart;
++----------------------+------+----------+------------------+------------+
+| Name                 | Year | Genre    | Director         | Production |
++----------------------+------+----------+------------------+------------+
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |
+| Peaky Blinders       | 2015 | Action   | Cillian Murphy   | Netflix    |
+| Money Heist          | 2017 | Thriller | El Professor     | Netflix    |
++----------------------+------+----------+------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Chart modify column Year int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Chart rename column Name to Movie_Name;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Chart;
++----------------------+------+----------+------------------+------------+
+| Movie_Name           | Year | Genre    | Director         | Production |
++----------------------+------+----------+------------------+------------+
+| Prashant's Waifu     | 2012 | Anime    | Utkarsh More     | Mappa      |
+| Infinity War         | 2020 | Action   | Stan Lee         | Marvel     |
+| Pranjal Das Deagles  | 2017 | rom-com  | Robert D Weide   | DC         |
+| Joker                | 2021 | Thriller | Robert Downey Jr | DC         |
+| Dangerous Khiladi VI | 2018 | Comedy   | Allu Arjun       | Goldmines  |
+| Peaky Blinders       | 2015 | Action   | Cillian Murphy   | Netflix    |
+| Money Heist          | 2017 | Thriller | El Professor     | Netflix    |
++----------------------+------+----------+------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> create table random_table(id int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into random_table values(1);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select from random_table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from random_table' at line 1
+mysql> select * from random_table;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> drop table random_table;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from random_table;
+ERROR 1146 (42S02): Table 'Movies.random_table' doesn't exist
+mysql> end
